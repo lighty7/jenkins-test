@@ -20,7 +20,7 @@ pipeline {
             steps {
                 script {
                     // Change directory into the CORRECT backend project folder
-                    dir('organization_backend') { // <-- CHANGED from 'backend'
+                    dir('backend') { // <-- CHANGED from 'backend'
                         echo 'Building Spring Boot Backend...'
                         if (isUnix()) {
                             sh './mvnw clean install -DskipTests'
@@ -37,7 +37,7 @@ pipeline {
             steps {
                 script {
                     // Change directory into the CORRECT frontend project folder
-                    dir('qugenie_frontend') { // <-- CHANGED from 'frontend'
+                    dir('frontend') { // <-- CHANGED from 'frontend'
                         echo 'Installing React Frontend dependencies...'
                         if (isUnix()) {
                             sh 'npm install'
