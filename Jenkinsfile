@@ -1,5 +1,3 @@
-// Jenkinsfile for my-fullstack-app
-
 pipeline {
     agent any 
 
@@ -12,15 +10,16 @@ pipeline {
     stages {
         stage('Checkout SCM') {
             steps {
-                checkout scm
+                checkout([$class: 'GitSCM', 
+                          branches: [[name: '*/build']], 
+                          userRemoteConfigs: [[url: 'https://github.com/lighty7/jenkins-test.git']]])
             }
         }
 
         stage('Build Spring Boot Backend') {
             steps {
                 script {
-                    // Change directory into the CORRECT backend project folder
-                    dir('backend') { // <-- CHANGED from 'backend'
+                    dir('backend') {
                         echo 'Building Spring Boot Backend...'
                         if (isUnix()) {
                             sh './mvnw clean install -DskipTests'
@@ -36,8 +35,7 @@ pipeline {
         stage('Build React Frontend') {
             steps {
                 script {
-                    // Change directory into the CORRECT frontend project folder
-                    dir('frontend') { // <-- CHANGED from 'frontend'
+                    dir('frontend') {
                         echo 'Installing React Frontend dependencies...'
                         if (isUnix()) {
                             sh 'npm install'
